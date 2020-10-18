@@ -7,16 +7,16 @@ import (
 	"errors"
 )
 
-//SIZE 文件大小
-type SIZE int64
+//FSIZE 文件大小
+type FSIZE int64
 
 //定义文件单位
 const (
-	BYTE SIZE = 1
-	KB   SIZE = 2 ^ 10
-	MB   SIZE = 2 ^ 20
-	GB   SIZE = 2 ^ 30
-	TB   SIZE = 2 ^ 40
+	BYTE FSIZE = 1
+	KB   FSIZE = 2 ^ 10
+	MB   FSIZE = 2 ^ 20
+	GB   FSIZE = 2 ^ 30
+	TB   FSIZE = 2 ^ 40
 )
 
 //ComputeMD5 计算md5
@@ -35,10 +35,10 @@ func ComputeMD5(filePathName string) ([]byte, error) {
 }
 
 //GetSize 获取文件的实际大小;
-func GetSize(filePathName string) (SIZE, error) {
+func GetSize(filePathName string) (FSIZE, error) {
 	info, err := os.Stat(filePathName)
 	if err != nil {
-		return SIZE(0), errors.New("get file stat fail")
+		return FSIZE(0), errors.New("get file stat fail")
 	}
-	return SIZE(info.Size()), nil
+	return FSIZE(info.Size()), nil
 }

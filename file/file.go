@@ -6,10 +6,12 @@ import (
 	"io"
 	"os"
 	"path/filepath"
+
+	core "github.com/hanjingo/gocore"
 )
 
 //计算md5
-func ComputeMD5(filePath string) ([]byte, error) {
+func MD5(filePath string) ([]byte, error) {
 	var result []byte
 	file, err := os.Open(filePath)
 	if err != nil {
@@ -24,7 +26,7 @@ func ComputeMD5(filePath string) ([]byte, error) {
 }
 
 //判断文件是否存在
-func IsExist(arg string) bool {
+func Exist(arg string) bool {
 	_, err := os.Stat(arg) //os.Stat获取文件信息
 	if err != nil {
 		if os.IsExist(err) {
@@ -36,25 +38,25 @@ func IsExist(arg string) bool {
 }
 
 //获取文件的实际大小;
-func GetSize(filePathName string) (SIZE, error) {
-	if !IsExist(filePathName) {
-		return SIZE(0), errors.New("文件不存在")
+func Size(filePathName string) (core.FSIZE, error) {
+	if !Exist(filePathName) {
+		return core.FSIZE(0), errors.New("文件不存在")
 	}
 	info, err := os.Stat(filePathName)
 	if err != nil {
-		return SIZE(0), errors.New("获得文件尺寸失败")
+		return core.FSIZE(0), errors.New("获得文件尺寸失败")
 	}
-	return SIZE(info.Size()), nil
+	return core.FSIZE(info.Size()), nil
 }
 
 //获得文件名
-func GetFullName(filePathName string) string {
+func FullName(filePathName string) string {
 	_, name := filepath.Split(filePathName)
 	return name
 }
 
 //获得文件名 和 类型
-func GetNameAndType(filePathName string) (string, string) {
+func NameAndExt(filePathName string) (string, string) {
 	_, name := filepath.Split(filePathName)
 	file_name := filepath.Base(name)
 	file_type := filepath.Ext(filePathName)
@@ -63,7 +65,7 @@ func GetNameAndType(filePathName string) (string, string) {
 
 //创建文件
 func Create(filePathName string) (*os.File, error) {
-	if !IsExist(filePathName) {
+	if !Exist(filePathName) {
 		return os.Create(filePathName)
 	}
 	return nil, errors.New("文件已经存在")
